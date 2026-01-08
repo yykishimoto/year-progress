@@ -20,6 +20,32 @@ function formatDateTime(date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+// 最大公約数を計算（ユークリッドの互除法）
+function gcd(a, b) {
+  while (b !== 0) {
+    const temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+}
+
+// 分数に変換（約分）
+function toFraction(numerator, denominator) {
+  if (numerator === 0) {
+    return { numerator: 0, denominator: 1 };
+  }
+  if (numerator === denominator) {
+    return { numerator: 1, denominator: 1 };
+  }
+
+  const divisor = gcd(numerator, denominator);
+  return {
+    numerator: Math.floor(numerator / divisor),
+    denominator: Math.floor(denominator / divisor)
+  };
+}
+
 // 進捗データを計算
 function calculateProgress() {
   const now = new Date();
@@ -56,6 +82,9 @@ function calculateProgress() {
   // 総日数
   const totalDays = getTotalDaysInYear(currentYear);
 
+  // 分数形式で進捗を計算
+  const fraction = toFraction(daysElapsed, totalDays);
+
   return {
     currentYear,
     isLeap: isLeapYear(currentYear),
@@ -63,7 +92,8 @@ function calculateProgress() {
     daysRemaining,
     progressPercent: progressPercent.toFixed(2),
     daysElapsed,
-    totalDays
+    totalDays,
+    fraction
   };
 }
 
@@ -74,11 +104,12 @@ function render() {
   // 残り日数
   document.getElementById('daysRemaining').textContent = `あと ${data.daysRemaining} 日`;
 
-  // 進捗％
-  document.getElementById('progressPercent').textContent = `${data.progressPercent} %`;
+  // 進捗（分数形式）
+  document.getElementById('progressFraction').textContent = `${data.fraction.numerator} / ${data.fraction.denominator}`;
 
-  // 経過日数
-  document.getElementById('daysFraction').textContent = `${data.daysElapsed} / ${data.totalDays} 日`;
+  // プログレスバー
+  document.getElementById('progressBar').style.width = `${data.progressPercent}%`;
+  document.getElementById('progressPercent').textContent = data.progressPercent;
 
   // 補助情報
   document.getElementById('currentTime').textContent = data.currentTime;

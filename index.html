@@ -21,15 +21,17 @@
       </div>
 
       <div class="card">
-        <h2>達成率</h2>
-        <p class="value" id="progressPercent">計算中...</p>
-      </div>
-
-      <div class="card">
-        <h2>経過日数</h2>
-        <p class="value" id="daysFraction">計算中...</p>
+        <h2>終了率</h2>
+        <p class="value" id="progressFraction">計算中...</p>
       </div>
     </main>
+
+    <section class="progress-bar-section">
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <p class="progress-bar-label"><span id="progressPercent">0.00</span> %</p>
+    </section>
 
     <section class="info">
       <p><strong>現在日時：</strong><span id="currentTime">-</span></p>
