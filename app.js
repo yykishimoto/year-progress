@@ -76,8 +76,8 @@ function calculateProgress() {
   const remainingMs = yearEnd.getTime() - now.getTime();
   const daysRemaining = remainingMs >= 0 ? Math.ceil(remainingMs / msPerDay) : 0;
 
-  // 経過日数（切り捨て、0日目スタート）
-  const daysElapsed = Math.floor(elapsedMs / msPerDay);
+  // 経過日数（切り捨て、1日目スタート）
+  const daysElapsed = Math.floor(elapsedMs / msPerDay) + 1;
 
   // 総日数
   const totalDays = getTotalDaysInYear(currentYear);
